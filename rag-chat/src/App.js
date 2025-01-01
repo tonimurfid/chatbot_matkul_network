@@ -3,8 +3,6 @@ import ReactMarkdown from "react-markdown";
 
 
 function App() {
-  const apiUrl = process.env.REACT_APP_API_URL;
-  console.log(apiUrl); // Output: https://example.com/api
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");

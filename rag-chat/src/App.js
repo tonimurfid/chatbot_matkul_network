@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isSplashVisible, setIsSplashVisible] = useState(true);
-  const [isBotStarted, setIsBotStarted] = useState(false); // Track if the bot interaction has started
-  const [isBotTyping, setIsBotTyping] = useState(false); // Track if the bot is typing
+  const [isBotStarted, setIsBotStarted] = useState(false);
+  const [isBotTyping, setIsBotTyping] = useState(false);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsSplashVisible(false), 1500); // 1.5-second splash screen
@@ -29,8 +30,8 @@ function App() {
 
     setMessages((prev) => [...prev, { sender: "user", text: input }]);
     setInput("");
-    setIsBotStarted(true); // Mark bot interaction as started
-    setIsBotTyping(true); // Start the typing animation
+    setIsBotStarted(true);
+    setIsBotTyping(true);
 
     try {
       const response = await fetch("https://x8zg6rv3-8000.asse.devtunnels.ms/chat", {
@@ -49,13 +50,25 @@ function App() {
       };
 
       setMessages((prev) => [...prev, botMessage]);
-      setIsBotTyping(false); // Stop the typing animation
+      setIsBotTyping(false);
     } catch (error) {
       setMessages((prev) => [
         ...prev,
         { sender: "bot", text: "Error: Unable to connect to the server." },
       ]);
-      setIsBotTyping(false); // Stop the typing animation on error
+      setIsBotTyping(false);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const newText = e.target.value;
+    setInput(newText);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
   };
 
@@ -140,26 +153,31 @@ function App() {
                 className="w-8 h-8 rounded-full"
               />
               <div className="p-3 rounded-lg bg-gray-700 text-gray-200">
-                <span className="animate-pulse">...</span> {/* Typing animation */}
+                <span className="animate-pulse">...</span>
               </div>
             </div>
           )}
         </div>
 
         <div className="p-4 flex">
-          <input
-            type="text"
-            className="flex-1 p-2 border border-gray-600 rounded-l-lg focus:outline-none bg-gray-700 text-gray-200"
+          <textarea
+            className="flex-1 p-2 border border-gray-600 rounded-l-lg focus:outline-none bg-gray-700 text-gray-200 resize-none"
             placeholder="Type your message..."
             value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            rows={1}
           />
           <button
-            className="bg-purple-400 text-gray-900 px-4 rounded-r-lg hover:bg-purple-500"
+            className="bg-purple-400 text-gray-900 px-3 py-3 rounded-full hover:bg-purple-500"
             onClick={sendMessage}
           >
-            Send
+            <i className="fas fa-paper-plane"></i> {/* Paper plane icon */
+            <img
+            src="/assets/papericon.png"
+            alt="AI"
+            className="w-5 h-5 rounded-full"
+          />}
           </button>
         </div>
       </div>

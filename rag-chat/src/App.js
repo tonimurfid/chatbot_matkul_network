@@ -35,8 +35,10 @@ function App() {
     setIsBotStarted(true);
     setIsBotTyping(true);
 
+    // ${process.env.REACT_APP_API_URL}
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}`, {
+      const response = await fetch(`https://9238-110-138-197-149.ngrok-free.app`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

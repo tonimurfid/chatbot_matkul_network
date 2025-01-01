@@ -5,6 +5,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isSplashVisible, setIsSplashVisible] = useState(true);
+  const [isBotStarted, setIsBotStarted] = useState(false); // Track if the bot interaction has started
 
   useEffect(() => {
     const timer = setTimeout(() => setIsSplashVisible(false), 1500); // 1.5-second splash screen
@@ -27,6 +28,7 @@ function App() {
 
     setMessages((prev) => [...prev, { sender: "user", text: input }]);
     setInput("");
+    setIsBotStarted(true); // Mark bot interaction as started
 
     try {
       const response = await fetch("https://x8zg6rv3-8000.asse.devtunnels.ms/chat", {
@@ -74,6 +76,12 @@ function App() {
           <img src="/assets/icon.png" alt="Krowten AI" className="w-8 h-8" />
           <span>Krowten AI</span>
         </div>
+
+        {!isBotStarted && (
+          <div className="text-center text-gray-400 text-sm">
+            Ask me about network-related topics!
+          </div>
+        )}
 
         <div className="p-4 h-[calc(100vh-150px)] overflow-y-auto">
           {messages.map((msg, index) => (

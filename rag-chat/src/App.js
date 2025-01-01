@@ -94,7 +94,7 @@ function App() {
         <h1 className="text-gray-200 text-4xl font-bold ml-4">Krowten AI</h1>
       </div>
 
-      <div className="w-full max-w-screen-lg bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+      <div className="w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg bg-gray-800 shadow-lg rounded-lg overflow-hidden">
         {!isBotStarted && (
           <div className="text-center text-gray-400 text-sm">
             Ask me about network-related topics!
@@ -172,12 +172,11 @@ function App() {
             className="bg-purple-400 text-gray-900 px-3 py-3 rounded-full hover:bg-purple-500"
             onClick={sendMessage}
           >
-            <i className="fas fa-paper-plane"></i> {/* Paper plane icon */
             <img
-            src="/assets/papericon.png"
-            alt="AI"
-            className="w-5 h-5 rounded-full"
-          />}
+              src="/assets/papericon.png"
+              alt="Send"
+              className="w-5 h-5 rounded-full"
+            />
           </button>
         </div>
       </div>

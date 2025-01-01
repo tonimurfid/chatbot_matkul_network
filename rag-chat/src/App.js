@@ -6,6 +6,7 @@ function App() {
   const [input, setInput] = useState("");
   const [isSplashVisible, setIsSplashVisible] = useState(true);
   const [isBotStarted, setIsBotStarted] = useState(false); // Track if the bot interaction has started
+  const [isBotTyping, setIsBotTyping] = useState(false); // Track if the bot is typing
 
   useEffect(() => {
     const timer = setTimeout(() => setIsSplashVisible(false), 1500); // 1.5-second splash screen
@@ -29,6 +30,7 @@ function App() {
     setMessages((prev) => [...prev, { sender: "user", text: input }]);
     setInput("");
     setIsBotStarted(true); // Mark bot interaction as started
+    setIsBotTyping(true); // Start the typing animation
 
     try {
       const response = await fetch("https://x8zg6rv3-8000.asse.devtunnels.ms/chat", {
@@ -47,11 +49,13 @@ function App() {
       };
 
       setMessages((prev) => [...prev, botMessage]);
+      setIsBotTyping(false); // Stop the typing animation
     } catch (error) {
       setMessages((prev) => [
         ...prev,
         { sender: "bot", text: "Error: Unable to connect to the server." },
       ]);
+      setIsBotTyping(false); // Stop the typing animation on error
     }
   };
 
@@ -71,12 +75,13 @@ function App() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-gray-200 transition-opacity duration-500 ease-in-out">
-      <div className="w-full max-w-screen-lg bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-        <div className="p-4 text-center text-2xl font-bold text-gray-200 flex items-center justify-center space-x-4">
-          <img src="/assets/icon.png" alt="Krowten AI" className="w-8 h-8" />
-          <span>Krowten AI</span>
-        </div>
+      {/* Logo placed on top */}
+      <div className="flex items-center justify-center p-4">
+        <img src="/assets/icon.png" alt="Krowten AI" className="w-12 h-12" />
+        <h1 className="text-gray-200 text-4xl font-bold ml-4">Krowten AI</h1>
+      </div>
 
+      <div className="w-full max-w-screen-lg bg-gray-800 shadow-lg rounded-lg overflow-hidden">
         {!isBotStarted && (
           <div className="text-center text-gray-400 text-sm">
             Ask me about network-related topics!
@@ -103,7 +108,7 @@ function App() {
                   />
                 </div>
               ) : (
-                <div className="flex items-center space-x-2">
+                <div className="flex space-x-2">
                   <img
                     src="/assets/icon.png"
                     alt="AI"
@@ -126,6 +131,19 @@ function App() {
               )}
             </div>
           ))}
+
+          {isBotTyping && (
+            <div className="flex justify-start items-center space-x-2 mb-2">
+              <img
+                src="/assets/icon.png"
+                alt="AI"
+                className="w-8 h-8 rounded-full"
+              />
+              <div className="p-3 rounded-lg bg-gray-700 text-gray-200">
+                <span className="animate-pulse">...</span> {/* Typing animation */}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="p-4 flex">

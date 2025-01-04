@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 
-
 function App() {
-
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isSplashVisible, setIsSplashVisible] = useState(true);
@@ -89,21 +87,24 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-gray-200 transition-opacity duration-500 ease-in-out">
-      {/* Logo placed on top */}
-      <div className="flex items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-gray-200">
+      {/* Logo placed on top with margin */}
+      <div className="flex items-center justify-center p-3">
         <img src="/assets/icon.png" alt="Krowten AI" className="w-12 h-12" />
         <h1 className="text-gray-200 text-4xl font-bold ml-4">Krowten AI</h1>
       </div>
 
-      <div className="w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+      <div
+        className="w-full max-w-screen-sm md:max-w-3xl lg:max-w-4xl bg-gray-800 shadow-lg rounded-lg overflow-hidden mt-6"
+        style={{ width: "70%", margin: "0 auto" }} // Centering and limiting width
+      >
         {!isBotStarted && (
           <div className="text-center text-gray-400 text-sm">
             Ask me about network-related topics!
           </div>
         )}
 
-        <div className="p-4 h-[calc(100vh-150px)] overflow-y-auto">
+        <div className="p-4 h-[calc(85vh-100px)] overflow-y-auto">
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -161,7 +162,7 @@ function App() {
           )}
         </div>
 
-        <div className="p-4 flex">
+        <div className="p-4 flex mt-4">
           <textarea
             className="flex-1 p-2 border border-gray-600 rounded-l-lg focus:outline-none bg-gray-700 text-gray-200 resize-none"
             placeholder="Type your message..."

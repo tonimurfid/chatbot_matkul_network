@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css"; // atau pilih style lain
-import MarkdownRenderer from "./components/MarkdownRenderer";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 function App() {
   const [messages, setMessages] = useState([]);

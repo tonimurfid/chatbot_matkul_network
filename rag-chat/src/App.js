@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css"; // atau pilih style lain
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -115,7 +118,14 @@ function App() {
               {msg.sender === "user" ? (
                 <div className="flex items-center space-x-2">
                   <div className="p-3 rounded-lg bg-purple-400 text-gray-900">
-                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  <ReactMarkdown
+  className="markdown"
+  remarkPlugins={[remarkGfm]}
+  rehypePlugins={[rehypeHighlight]}
+>
+  {msg.text}
+</ReactMarkdown>
+
                   </div>
                   <img
                     src="https://www.w3schools.com/w3images/avatar2.png"
